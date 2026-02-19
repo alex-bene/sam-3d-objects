@@ -13,7 +13,7 @@ from omegaconf import OmegaConf, DictConfig, ListConfig
 from hydra.utils import instantiate, get_method
 import torch
 import math
-import utils3d
+import sam3d_objects.utils.utils3d as utils3d
 import shutil
 import subprocess
 import seaborn as sns

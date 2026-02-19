@@ -1,19 +1,105 @@
-[build-system]
-requires = ["hatchling", "hatch-requirements-txt"]
-build-backend = "hatchling.build"
-
-[tool.hatch.envs.default.env-vars]
-PIP_EXTRA_INDEX_URL = "https://pypi.ngc.nvidia.com https://download.pytorch.org/whl/cu121"
-
-[tool.hatch.metadata]
-# for git-referenced dependencies
-allow-direct-references = true
-
 [project]
 name = "sam3d_objects"
 version = "0.0.1"
 # required for "hatch-requirements-txt" to work
-dynamic = ["dependencies", "optional-dependencies"]
+requires-python = ">=3.11,<=3.12"
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+cpu = ["torch==2.8.0", "xformers", "pytorch3d==0.7.8+pt2.8.0cpu"]
+cu124 = [
+    "torch==2.6.0",
+    "xformers==0.0.29.post2",
+    "pytorch3d==0.7.8+pt2.6.0cu124",
+]
+cu126 = [
+    "torch==2.8.0",
+    "xformers==0.0.32.post2",
+    "pytorch3d==0.7.8+pt2.8.0cu126",
+]
+cu128 = [
+    "torch==2.8.0",
+    "xformers==0.0.32.post2",
+    "pytorch3d==0.7.8+pt2.8.0cu128",
+]
+
+inference = [
+    "kaolin==0.18.0",
+    "gsplat @ git+https://github.com/nerfstudio-project/gsplat.git@2323de5905d5e90e035f792fe65bad0fedd413e7",
+    "seaborn>=0.13.2",
+    "gradio==5.49.0",
+    "huggingface-hub[cli]<1.0",
+    "tinyvis",
+]
+
+[dependency-groups]
+dev = ["pytest", "findpydeps", "pipdeptree", "lovely_tensors"]
+
+[tool.uv.extra-build-dependencies]
+flash-attn = [{ requirement = "torch", match-runtime = true }]
+gsplat = ["torch"]
+nvidia-pyindex = ["pip"]
+
+[tool.uv.extra-build-variables]
+flash-attn = { FLASH_ATTENTION_SKIP_CUDA_BUILD = "TRUE" }
+
+[tool.uv]
+find-links = [
+    # "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.8.0_cpu.html",
+    # "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.6.0_cu124.html",
+    # "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.8.0_cu126.html",
+    "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.8.0_cu128.html",
+]
+conflicts = [
+    [
+        { extra = "cpu" },
+        { extra = "cu124" },
+        { extra = "cu126" },
+        { extra = "cu128" },
+    ],
+]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu124", extra = "cu124" },
+    { index = "pytorch-cu126", extra = "cu126" },
+    { index = "pytorch-cu128", extra = "cu128" },
+]
+pytorch3d = { index = "pytorch3d-wheels" }
+tinyvis = { git = "https://github.com/alex-bene/tinyvis.git" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch3d-wheels"
+url = "https://miropsota.github.io/torch_packages_builder"
+explicit = true
+
+[build-system]
+requires = ["hatchling", "hatch-requirements-txt"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ["requirements.txt"]
 
 [tool.hatch.build]
 ignore-vcs = true
@@ -21,10 +107,9 @@ include = ["**/*.py"]
 exclude = ["conftest.py", "*_test.py"]
 packages = ["sam3d_objects"]
 
-[tool.hatch.metadata.hooks.requirements_txt]
-files = ["requirements.txt"]
+[tool.hatch.metadata]
+# for git-referenced dependencies
+allow-direct-references = true
 
-[tool.hatch.metadata.hooks.requirements_txt.optional-dependencies]
-p3d = ["requirements.p3d.txt"]
-inference = ["requirements.inference.txt"]
-dev = ["requirements.dev.txt"]
+[tool.hatch.envs.default.env-vars]
+PIP_EXTRA_INDEX_URL = "https://pypi.ngc.nvidia.com"

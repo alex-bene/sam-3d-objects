@@ -21,7 +21,7 @@ from scipy.ndimage import label, binary_dilation, binary_fill_holes, binary_eros
 import copy
 from sam3d_objects.model.backbone.tdfy_dit.renderers.gaussian_render import GaussianRenderer
 from loguru import logger
-from utils3d.numpy import depth_edge
+from sam3d_objects.utils.utils3d.numpy import depth_edge
 
 def remove_small_regions(mask, min_area=100):
     """

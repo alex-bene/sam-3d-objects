@@ -2,7 +2,7 @@
 import torch
 import numpy as np
 from tqdm import tqdm
-import utils3d
+import sam3d_objects.utils.utils3d as utils3d
 from PIL import Image
 
 from ..renderers import OctreeRenderer, GaussianRenderer, MeshRenderer

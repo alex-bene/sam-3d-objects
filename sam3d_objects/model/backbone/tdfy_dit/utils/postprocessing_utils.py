@@ -2,7 +2,7 @@
 from typing import *
 import numpy as np
 import torch
-import utils3d
+import sam3d_objects.utils.utils3d as utils3d
 from PIL import Image
 from tqdm import tqdm
 import trimesh

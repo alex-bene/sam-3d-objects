@@ -6,7 +6,7 @@ import torch
 from pytorch3d.structures import Meshes
 from pytorch3d.renderer.mesh.textures import TexturesVertex
 
-from utils3d.numpy import (
+from sam3d_objects.utils.utils3d.numpy import (
     depth_edge,
     normals_edge,
     points_to_normals,
