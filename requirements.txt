@@ -85,3 +85,4 @@ Werkzeug==3.0.6
 xatlas==0.0.9
 xformers>=0.0.28.post2
 MoGe @ git+https://github.com/microsoft/MoGe.git
+plyfile>=1.1.3
