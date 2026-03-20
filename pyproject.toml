@@ -6,25 +6,32 @@ requires-python = ">=3.11,<=3.12"
 dynamic = ["dependencies"]
 
 [project.optional-dependencies]
-cpu = ["torch==2.8.0", "xformers", "pytorch3d==0.7.8+pt2.8.0cpu"]
+cpu = [
+    "torch==2.8.0",
+    "xformers",
+    "pytorch3d==0.7.8+pt2.8.0cpu",
+    "kaolin==0.18.0",
+]
 cu124 = [
     "torch==2.6.0",
     "xformers==0.0.29.post2",
     "pytorch3d==0.7.8+pt2.6.0cu124",
+    "kaolin==0.18.0",
 ]
 cu126 = [
     "torch==2.8.0",
     "xformers==0.0.32.post2",
     "pytorch3d==0.7.8+pt2.8.0cu126",
+    "kaolin==0.18.0",
 ]
 cu128 = [
     "torch==2.8.0",
     "xformers==0.0.32.post2",
     "pytorch3d==0.7.8+pt2.8.0cu128",
+    "kaolin==0.18.0",
 ]
 
 inference = [
-    "kaolin==0.18.0",
     "gsplat @ git+https://github.com/nerfstudio-project/gsplat.git@2323de5905d5e90e035f792fe65bad0fedd413e7",
     "seaborn>=0.13.2",
     "gradio==5.49.0",
@@ -44,12 +51,6 @@ nvidia-pyindex = ["pip"]
 flash-attn = { FLASH_ATTENTION_SKIP_CUDA_BUILD = "TRUE" }
 
 [tool.uv]
-find-links = [
-    # "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.8.0_cpu.html",
-    # "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.6.0_cu124.html",
-    # "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.8.0_cu126.html",
-    "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.8.0_cu128.html",
-]
 conflicts = [
     [
         { extra = "cpu" },
@@ -66,8 +67,38 @@ torch = [
     { index = "pytorch-cu126", extra = "cu126" },
     { index = "pytorch-cu128", extra = "cu128" },
 ]
+kaolin = [
+    { index = "kaolin-cpu", extra = "cpu" },
+    { index = "kaolin-cu124", extra = "cu124" },
+    { index = "kaolin-cu126", extra = "cu126" },
+    { index = "kaolin-cu128", extra = "cu128" },
+]
 pytorch3d = { index = "pytorch3d-wheels" }
 tinyvis = { git = "https://github.com/alex-bene/tinyvis.git" }
+
+[[tool.uv.index]]
+name = "kaolin-cpu"
+url = "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.8.0_cpu.html"
+format = "flat"
+explicit = true
+
+[[tool.uv.index]]
+name = "kaolin-cu124"
+url = "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.6.0_cu124.html"
+format = "flat"
+explicit = true
+
+[[tool.uv.index]]
+name = "kaolin-cu126"
+url = "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.8.0_cu126.html"
+format = "flat"
+explicit = true
+
+[[tool.uv.index]]
+name = "kaolin-cu128"
+url = "https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.8.0_cu128.html"
+format = "flat"
+explicit = true
 
 [[tool.uv.index]]
 name = "pytorch-cpu"
