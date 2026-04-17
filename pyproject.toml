@@ -118,13 +118,14 @@ cu128 = [
     "pytorch3d==0.7.8+pt2.8.0cu128",
     "kaolin==0.18.0",
 ]
-
 inference = [
     "gsplat @ git+https://github.com/nerfstudio-project/gsplat.git@2323de5905d5e90e035f792fe65bad0fedd413e7",
     "seaborn>=0.13.2",
     "gradio>=5.49.0",
     "huggingface-hub[cli]",
 ]
+nvdiffrast = ["nvdiffrast"]
+diff_gaus_raster = ["diff_gaussian_rasterization"]
 
 [dependency-groups]
 dev = ["pytest", "findpydeps", "pipdeptree", "lovely_tensors"]
@@ -133,11 +134,13 @@ dev = ["pytest", "findpydeps", "pipdeptree", "lovely_tensors"]
 flash-attn = [{ requirement = "torch", match-runtime = true }]
 gsplat = ["torch"]
 nvidia-pyindex = ["pip"]
+nvdiffrast = [{ requirement = "torch", match-runtime = true }]
 
 [tool.uv.extra-build-variables]
 flash-attn = { FLASH_ATTENTION_SKIP_CUDA_BUILD = "TRUE" }
 
 [tool.uv]
+no-build-isolation-package = ["diff_gaussian_rasterization"]
 conflicts = [
     [
         { extra = "cpu" },
@@ -162,6 +165,8 @@ kaolin = [
 ]
 pytorch3d = { index = "pytorch3d-wheels" }
 tinyvis = { git = "https://github.com/alex-bene/tinyvis.git" }
+nvdiffrast = { git = "https://github.com/NVlabs/nvdiffrast.git" }
+diff_gaussian_rasterization = { git = "https://github.com/autonomousvision/mip-splatting.git", subdirectory = "submodules/diff-gaussian-rasterization" }
 
 [[tool.uv.index]]
 name = "kaolin-cpu"
