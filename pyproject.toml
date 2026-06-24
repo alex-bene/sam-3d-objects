@@ -28,7 +28,6 @@ dependencies = [
     "PySocks==1.7.1",
     "scikit-image==0.23.1",
     "timm==0.9.16",
-    "torchaudio",
     "uri-template==1.3.0",
     "xatlas==0.0.9",
     "xformers>=0.0.28.post2",
